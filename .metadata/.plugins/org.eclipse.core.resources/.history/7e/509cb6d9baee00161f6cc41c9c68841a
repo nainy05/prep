@@ -1,0 +1,99 @@
+package com.feb;
+
+import java.util.HashMap;
+
+class DLLNode{
+	int pageNo;
+	DLLNode prev;
+	DLLNode next;
+	
+	public DLLNode(int pageNo) {
+		this.pageNo = pageNo;
+	}
+}
+
+public class LRUCache {
+	
+	int cacheCapacity;
+	DLLNode head;
+	DLLNode end;
+	HashMap<Integer, DLLNode> map = new HashMap<>();
+	
+	public LRUCache(int capacity) {
+		cacheCapacity = capacity;
+	}
+	
+	public int get(int pageNo){
+		if(map.containsKey(pageNo)){
+			return pageNo;
+		}
+		return -1;
+	}
+	
+	public void set(int pageNo){
+		if(map.containsKey(pageNo)){
+			DLLNode old = map.get(pageNo);
+			remove(old);
+			setHead(old);
+		}
+		else{
+			DLLNode node = new DLLNode(pageNo);
+			if(map.size() >= cacheCapacity){
+				map.remove(end.pageNo);
+				remove(end);
+			}
+			setHead(node);
+			map.put(pageNo, node);
+		}
+	}
+	
+	public void print(){
+		DLLNode node = head;
+		while(node != null){
+			System.out.print(node.pageNo + " ");
+			node = node.next;
+		}
+		System.out.println();
+	}
+
+	private void setHead(DLLNode node) {
+		if(cacheCapacity == 0)
+			return;
+		if(head == null){
+			head = node;
+		}
+		else{
+			head.prev = node;
+			node.next = head;
+			head = node;
+		}
+		if(end == null){
+			end = head;
+		}
+	}
+
+	private void remove(DLLNode node) {
+		if(node.prev != null){
+			node.prev.next = node.next;
+		}
+		else{
+			head = node.next;
+		}
+		if(node.next != null){
+			node.next.prev = node.prev;
+		}
+		else{
+			end = node.prev;
+		}
+	}
+
+	public static void main(String[] args) {
+		LRUCache cache = new LRUCache(3);
+		cache.set(1);
+		cache.set(2);
+		cache.set(3);
+		cache.set(4);
+		cache.print();
+	}
+
+}

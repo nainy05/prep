@@ -1,0 +1,35 @@
+package com.feb;
+
+import java.util.HashMap;
+
+class DLLNode{
+	int pageNo;
+	DLLNode prev;
+	DLLNode next;
+	
+	public DLLNode(int pageNo) {
+		this.pageNo = pageNo;
+	}
+}
+
+public class LRUCache {
+	
+	int cacheCapacity;
+	DLLNode head;
+	DLLNode end;
+	HashMap<Integer, DLLNode> map = new HashMap<>();
+	
+	public LRUCache(int capacity) {
+		cacheCapacity = capacity;
+	}
+	
+	public void set(int pageNo){
+		
+	}
+	
+
+	public static void main(String[] args) {
+		
+	}
+
+}

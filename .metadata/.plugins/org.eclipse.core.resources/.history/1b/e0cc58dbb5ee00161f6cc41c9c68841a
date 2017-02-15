@@ -1,0 +1,23 @@
+package com.feb;
+
+import java.util.HashMap;
+
+class DLLNode{
+	int pageNo;
+	DLLNode prev;
+	DLLNode next;
+}
+
+public class LRUCatch {
+	
+	int 
+	DLLNode head;
+	DLLNode end;
+	HashMap<Integer, DLLNode> map = new HashMap<>();
+	
+
+	public static void main(String[] args) {
+		
+	}
+
+}

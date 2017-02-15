@@ -1,0 +1,65 @@
+package com.feb;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class SquareSubstring {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int testCases = Integer.parseInt(br.readLine());
+		while(testCases-- >= 0){
+			String S = br.readLine();
+			int sqSubseqs = getNoOfSquareSubseq(S);
+			System.out.println(sqSubseqs);
+		}
+	}
+
+	private static int getNoOfSquareSubseq(String s) {
+		int n = s.length();
+		int noOfSqSubseq = 0;
+		for (int i = 1; i <= n; i++) {
+			noOfSqSubseq += findSquareInSplit(s.substring(0,i).toCharArray(),s.substring(i,n).toCharArray());
+			noOfSqSubseq %= 1000000007;
+		}
+		return noOfSqSubseq;
+	}
+
+	private static int findSquareInSplit(char[] str1, char[] str2) {
+		
+		int str1Len = str1.length;
+		int str2Len = str2.length;
+		if(str1Len == 0 || str2Len == 0)
+			return 0;
+		int dp[][] = new int[str1Len][str2Len];
+		
+		
+		for (int i = 0; i < str1Len; i++) {
+			if(str1[i] == str2[0])
+				dp[i][0] = 1;
+			if(i != 0)
+				dp[i][0] += dp[i-1][0];
+		}
+		if(dp[0][0] > 0){
+		for (int j = 1; j < str2Len; j++) {
+			dp[0][j] = dp[0][j-1];
+		}
+		}
+		
+		for (int i = 1; i < str1Len; i++) {
+			for (int j = 1; j < str2Len; j++) {
+				dp[i][j] = dp[i-1][j] + dp[i][j-1] - dp[i-1][j-1];
+				if(str1[i] == str2[j])
+					dp[i][j] += dp[i-1][j-1];
+				dp[i][j] = dp[i][j]%1000000007;
+				if(dp[i][j] < 0)
+					dp[i][j] += 1000000007;
+			}
+		}
+		
+		return dp[str1Len-1][str2Len-1];
+	}
+
+}
